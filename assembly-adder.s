@@ -16,8 +16,13 @@ main:
     
     # End of start, has allocated the stack now
     movq    8(%rsi), %rax       # Gets the pointer to argv[1]; 8 bytes after pointer to argv[0] (since all memory addresses are 64 bits)
-	movl	$0, %eax
-	popq	%rbp
+	# Now %rax holds the value that was at 8 + %rsi, or argv[1]
+    # Now, we want to add the value that is at argv[2] into the %rax register that holds argv[1]
+    addq    16(%rsi), %rax      # This adds the value at 16 bytes from %rsi into the %rax register
+    # Do not need to move into %eax, that's the lower 32 of %rax, so the number will be there anyway
+    # TODO Right now, this just adds two memory addresses together; need to call something like atoi to get the integers to add them)
+	# INTERESTING NOTE: this always returns the same value because its adding memory addresses that are the same offset every time, no matter the actual values
+    popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
