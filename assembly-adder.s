@@ -1,7 +1,17 @@
-	.file	"template.c"
+	## Made from template file, but all substantive code written in this file
+    ## Help from Claude, conversation here (private for now): https://claude.ai/share/104749b2-375d-4372-8c87-1cda69776a3f 
+
+    .file	"template.c"
 	.text
 	.globl	main
 	.type	main, @function
+
+    # Data section, defining strings to print
+    .section .rodata
+    .LC0:                       # Can name the "variable" (label) whatever you want, but this is just a default label
+        .string "Sum: %d\n"     # .string null-terminates everything properly, built-in; but otherwise need to include 10, 0 as arguments in the label declaration
+    .section .text              # Need this to get out of a data section and return to executable code (it seems?)
+
 main:
 .LFB0:
 	.cfi_startproc
@@ -35,10 +45,19 @@ main:
     # Value gets returned into %rax, don't need to save it because we're gonna return %rax anyway
 
     # Now we can do the actual adding with our returned values: rbx into rax, then return rax
-    addq %rbx, %rax
-    
-    # Do not need to move into %eax, that's the lower 32 of %rax, so the number will be there anyway
-    
+    addq     %rbx, %rax
+   
+    # Printing
+    # First, need to put the pointer to the address with the label that holds our string into %rdi, which holds argument 1 of functions
+    leaq    .LC0(%rip), %rdi    # Load effective address, get the pointer because printf's firs parameter is const char *format
+    # Second, put the number we want to print into the register that is the second argument of functions, %rsi
+    movq    %rax, %rsi
+    movq    $0, %rax            # Quirky thing, something about printf being variadic, not entirely sure what this means NOTE
+    call    printf@PLT          # Call the print function
+
+    # Instead of returning the value, we now return a process code; 0 for success
+    movl    $0, %eax
+
     # Now we restore rbx and r12 to their original states before this function was called, so that whatever was using them (the caller of this function) gets their correct values
     popq    %r12                # Do this pop first because LIFO, so need to get the last pushed first
     popq    %rbx                # THEN do this to preserve correct values
