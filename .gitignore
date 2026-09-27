@@ -1,0 +1,8 @@
+# Ignore generic GCC output
+a.out
+
+# Ignore executables
+*.exe
+
+# Ignore compiled binary
+assembly-adder
