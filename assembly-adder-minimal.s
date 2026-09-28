@@ -49,5 +49,4 @@ main:
 # This line apparently makes stack non-executable which is better for security, prevents a GCC warning when compiling, so I'll add it
 .section .note.GNU-stack,"",@progbits
 
-# This file was also helped by the same Claude conversation (may be private): https://claude.ai/share/104749b2-375d-4372-8c87-1cda69776a3f
 # Otherwise, most knowledge came from Computer Architecture at Rutgers University taught by Bernhard Firner
