@@ -1,5 +1,7 @@
 	## Made from template file, but all substantive code written in this file
     ## Help from Claude, conversation here (private for now): https://claude.ai/share/104749b2-375d-4372-8c87-1cda69776a3f 
+    ## This version is the "bloated" version, which includes a lot of information from the compiled c file that created the header/compile information. The minimal version is from
+    ## # assembly with no template c file.
 
     .file	"template.c"
 	.text

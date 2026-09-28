@@ -6,3 +6,4 @@ a.out
 
 # Ignore compiled binary
 assembly-adder
+assembly-adder-minimal
